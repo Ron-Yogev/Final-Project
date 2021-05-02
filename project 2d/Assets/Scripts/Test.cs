@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] public Text text;
+    public Text text;
     [DllImport("__Internal")]
     public static extern void GetJSON(string path, string objectName, string callback, string fallback);
 
@@ -18,7 +18,9 @@ public class Test : MonoBehaviour
     private void OnRequestSuccess(string data)
     {
         text.color = Color.green;
+        
         text.text = data;
+
     }
 
     private void OnRequestFailed(string error)

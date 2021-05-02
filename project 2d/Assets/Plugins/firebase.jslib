@@ -1,4 +1,4 @@
-mergeInto(LibraryManager.Library, {
+mergeInto(LibraryManager.library, {
 
 	GetJSON: function (path, objectName, callback, fallback) {
 		var parsedPath = Pointer_stringify(path);
@@ -9,11 +9,11 @@ mergeInto(LibraryManager.Library, {
 		try {
 
 		firebase.database().ref(parsedPath).once('value').then(function(snapshot) {
-			unityInstance.Module.SendMessage(parsedObjectName, parsedCallback, JSON.stringify(snapshot.val()));
+			unityInstance.SendMessage(parsedObjectName, parsedCallback, JSON.stringify(snapshot.val()));
 		});
 
 		} catch (error){
-			unityInstance.Module.SendMessage(parsedObjectName, parsedFallback, "There was an error: "+ error.message);
+			unityInstance.SendMessage(parsedObjectName, parsedFallback, "There was an error: "+ error.message);
 		}
 	}
 });

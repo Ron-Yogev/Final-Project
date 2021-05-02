@@ -13,6 +13,7 @@ public class FloodFill : MonoBehaviour
     [SerializeField] Texture2D Bwimg;
 
     Texture2D duplicateTexture(Texture2D source)
+        
     {
         RenderTexture renderTex = RenderTexture.GetTemporary(
                     source.width,
@@ -32,10 +33,8 @@ public class FloodFill : MonoBehaviour
         return readble;
     }
 
-    public IEnumerator getCorrectPixelMouseClick(Vector2 dat, Texture2D pic, Color targetColor)
+    public Texture2D getCorrectPixelMouseClick(Vector2 dat, Texture2D pic, Color targetColor)
     {
-        Debug.Log("iN");
-        Debug.Log("target color:" + targetColor);
         this.flag = false;
         readble = duplicateTexture(pic);
         Bwimg = duplicateTexture(Bwimg);
@@ -44,8 +43,11 @@ public class FloodFill : MonoBehaviour
         var pos1 = dat;
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rect1, pos1,
             null, out localCursor))
-            yield return null;
-
+        {
+            Debug.Log("its nullll in local cursor");
+            return null;
+        }
+        
         int xpos = (int)(localCursor.x);
         int ypos = (int)(localCursor.y);
 
@@ -55,11 +57,19 @@ public class FloodFill : MonoBehaviour
         if (ypos > 0) ypos = ypos + (int)rect1.rect.height / 2;
         else ypos += (int)rect1.rect.height / 2;
 
-        if (xpos < 0 || ypos < 0 || xpos > rect1.sizeDelta.x || ypos > rect1.sizeDelta.y) yield return null;
+        if (xpos < 0 || ypos < 0 || xpos > rect1.sizeDelta.x || ypos > rect1.sizeDelta.y)
+        {
+            Debug.Log("its nullll in border pos");
+            return null;
+        }
         int x = (int)(readble.width * (xpos / rect1.sizeDelta.x));
         int y = (int)(readble.height * (ypos / rect1.sizeDelta.y));
 
-        if (Bwimg.GetPixel(x, y) == new Color(0f, 0f, 0f, 1f)) yield return null;
+        if (Bwimg.GetPixel(x, y) == new Color(0f, 0f, 0f, 1f))
+        {
+            Debug.Log("its nullll in black color");
+            return readble;
+        }
         helper = new Texture2D(readble.width, readble.height);
         helper.SetPixels(readble.GetPixels());
         helper.Apply();
@@ -68,8 +78,7 @@ public class FloodFill : MonoBehaviour
 
         readble.Apply();
         GameObject.FindGameObjectWithTag("paintable").GetComponent<Image>().overrideSprite = Sprite.Create(readble, new Rect(0.0f, 0.0f, readble.width, readble.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-        yield return null;
+        return readble;
     }
 
     public static readonly int[] dx = { 0, 1, 0, -1 }; // relative neighbor x coordinates
@@ -92,7 +101,8 @@ public class FloodFill : MonoBehaviour
             Vector2 point = hs.ElementAt(hs.Count - 1);
             hs.Remove(point);
             //st.Pop();
-            readble.SetPixel((int)point.x, (int)point.y, targetColor);
+            //readble.SetPixel((int)point.x, (int)point.y, targetColor);
+            StartCoroutine(setColor((int)point.x, (int)point.y, targetColor));
             //screenBuffer[y * w + x] = newColor;
             for (int i = 0; i < 4; i++)
             {
@@ -115,7 +125,11 @@ public class FloodFill : MonoBehaviour
         Debug.Log("iterations: " + iteration);
     }
 
-
+    IEnumerator setColor(int x, int y, Color targetColor)
+    {
+        readble.SetPixel(x, y, targetColor);
+        yield return null;
+    }
     bool CheckValidity(int x, int y, Color TargetColor)
     {
         if (readble.GetPixel(x, y) == TargetColor)
