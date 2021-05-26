@@ -9,6 +9,7 @@ TagManager:
   - color
   - uncolor
   - paintable
+  - confirmURL
   layers:
   - Default
   - TransparentFX

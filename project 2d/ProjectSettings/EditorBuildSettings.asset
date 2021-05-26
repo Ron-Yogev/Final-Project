@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Register.unity
     guid: 3b743de5cafc8ab44ae85a9884d62edd
+  - enabled: 1
+    path: Assets/Scenes/EdjustTheImage.unity
+    guid: aee0e62533fbd9a44a7780f2e35672a4
+  - enabled: 1
+    path: Assets/Scenes/UploadImage.unity
+    guid: 7672942ac7071f44ba47f55f9e28a29e
+  - enabled: 1
+    path: Assets/Scenes/AreasChoosing.unity
+    guid: 601e8bf429a28144baabe798dfe715cb
   m_configObjects: {}

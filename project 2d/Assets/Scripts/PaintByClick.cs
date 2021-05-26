@@ -26,9 +26,12 @@ public class PaintByClick : MonoBehaviour
     GameObject image_curr_color;
     [SerializeField] Texture2D img = null;
 
+
     // Start is called before the first frame update
     void Start()
     {
+
+
         int h = brushIcon.height;
         int w = brushIcon.width;
         Vector2 tmp = new Vector2(w * 0.2f, h * 0.8f);
@@ -88,7 +91,7 @@ public class PaintByClick : MonoBehaviour
                             //gameObject.GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition, img, cur_color);
                             if (checkBorders(pos))
                             {
-                                img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(pos, img, Color.white);
+                                //img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(pos, img, Color.white);
                                 Debug.Log("img after click = " + img);
                             }
 
@@ -101,7 +104,7 @@ public class PaintByClick : MonoBehaviour
                             //StartCoroutine(GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition, img, cur_color));
                             if (checkBorders(pos))
                             {
-                                img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition, img, cur_color);
+                                img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition, img,cur_color);
                                 Debug.Log("img after click = " + img);
                             }
                             
@@ -259,5 +262,8 @@ public class PaintByClick : MonoBehaviour
         Vector2 tmp = new Vector2(w * 0.2f, h * 0.2f);
         Cursor.SetCursor(pointerhIcon, tmp, CursorMode.ForceSoftware);
     }
+
+
+
 
 }

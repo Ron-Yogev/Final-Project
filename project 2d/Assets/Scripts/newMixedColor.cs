@@ -32,12 +32,10 @@ public class newMixedColor : MonoBehaviour
      */
     public void addCyanColor(float add)
     {
-        C = -1f * add;
+        C = -1f * (add/255f);
         CI.color = CMYKtoRGB(C, 0, 0);
         CO.color = CMYKtoRGB(C, 0, 0);
         curr = CMYKtoRGB(C, M, Y);
-        Debug.Log(curr);
-
     }
 
     /*
@@ -45,12 +43,10 @@ public class newMixedColor : MonoBehaviour
      */
     public void addMagentaColor(float add)
     {
-        M = -1f * add;
+        M = -1f * (add / 255f);
         MI.color = CMYKtoRGB(0, M, 0);
         MO.color = CMYKtoRGB(0, M, 0);
         curr = CMYKtoRGB(C, M, Y);
-        Debug.Log(curr);
-
     }
 
     /*
@@ -58,12 +54,10 @@ public class newMixedColor : MonoBehaviour
      */
     public void addYellowColor(float add)
     {
-        Y = -1f * add;
+        Y = -1f * (add / 255f);
         YI.color = CMYKtoRGB(0, 0, Y);
         YO.color = CMYKtoRGB(0, 0, Y);
         curr = CMYKtoRGB(C, M, Y);
-        Debug.Log(curr);
-
     }
 
     /*
@@ -73,6 +67,7 @@ public class newMixedColor : MonoBehaviour
     {
         return curr;
     }
+
 
     /*
  * Function that turns CMYK color into RGB color
