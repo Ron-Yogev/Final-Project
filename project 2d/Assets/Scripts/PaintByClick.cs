@@ -24,14 +24,14 @@ public class PaintByClick : MonoBehaviour
     private bool onErase = false;
     private bool onPointer = false;
     GameObject image_curr_color;
-    [SerializeField] Texture2D img = null;
+    Texture2D img;
 
 
     // Start is called before the first frame update
     void Start()
     {
-
-
+        img = GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg();
+        Debug.Log("BWImg = " + img);
         int h = brushIcon.height;
         int w = brushIcon.width;
         Vector2 tmp = new Vector2(w * 0.2f, h * 0.8f);
@@ -82,26 +82,15 @@ public class PaintByClick : MonoBehaviour
                     {
                         if (onErase)
                         {
-
-                            //SoundManagerScript.PlaySound("erase");
-                            //hit.collider.gameObject.GetComponent<SpriteRenderer>().color = cur_color;
-                            //img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition, img, Color.white);
-                            //GameObject.FindGameObjectWithTag("paintable").GetComponent<Image>().overrideSprite = Sprite.Create(img, new Rect(0.0f, 0.0f, img.width, img.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-                            //gameObject.GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition, img, cur_color);
                             if (checkBorders(pos))
                             {
-                                //img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(pos, img, Color.white);
-                                Debug.Log("img after click = " + img);
+                                img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(pos, img, Color.white);
                             }
 
                         }
                         else
                         {
-                            // SoundManagerScript.PlaySound("paint");
-                            //hit.collider.gameObject.GetComponent<SpriteRenderer>().color = temp_curr;
-                            //Debug.Log(gameObject.GetComponent<FloodFill>());
-                            //StartCoroutine(GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition, img, cur_color));
+
                             if (checkBorders(pos))
                             {
                                 img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition, img,cur_color);
@@ -262,8 +251,6 @@ public class PaintByClick : MonoBehaviour
         Vector2 tmp = new Vector2(w * 0.2f, h * 0.2f);
         Cursor.SetCursor(pointerhIcon, tmp, CursorMode.ForceSoftware);
     }
-
-
 
 
 }

@@ -25,7 +25,7 @@ public class CountBackTime : MonoBehaviour
         running = true;
         startTime = Time.time;
         total_sec = minutes * 60 + seconds;// casting the time to seconds
-        showScore = GameObject.FindGameObjectWithTag("final_score").GetComponent<calculateResult>();
+        //showScore = GameObject.FindGameObjectWithTag("final_score").GetComponent<calculateResult>();
     }
 
     /*
@@ -46,7 +46,7 @@ public class CountBackTime : MonoBehaviour
             {
                 if (!clockTicking)
                 {
-                    SoundManagerScript.PlaySound("clockTicking");
+                    //SoundManagerScript.PlaySound("clockTicking");
                     clockTicking = true;
                 }
                 text.color = Color.red;
@@ -67,7 +67,7 @@ public class CountBackTime : MonoBehaviour
             if (!play_end)
             {
                 running = false;
-                showScore.setScore();
+                //showScore.setScore();
                 play_end = true;
 
             }

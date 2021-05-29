@@ -10,6 +10,8 @@ TagManager:
   - uncolor
   - paintable
   - confirmURL
+  - score
+  - routeLevel
   layers:
   - Default
   - TransparentFX

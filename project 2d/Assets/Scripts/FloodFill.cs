@@ -11,7 +11,19 @@ public class FloodFill : MonoBehaviour
     Texture2D readble;
     Texture2D helper;
     bool flag;
-    [SerializeField] Texture2D Bwimg;
+    Texture2D Bwimg;
+    Texture2D Orig;
+    int numPixels;
+    int it;
+    Dictionary<int, Vector2> areasCoord = new Dictionary<int, Vector2>();
+
+    void Start()
+    {
+        readble = duplicateTexture(GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg());
+        Bwimg = duplicateTexture(GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg());
+        Orig = GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getColorImg();
+    }
+
 
     Texture2D duplicateTexture(Texture2D source)  {
         RenderTexture renderTex = RenderTexture.GetTemporary(
@@ -32,11 +44,15 @@ public class FloodFill : MonoBehaviour
         return readble;
     }
 
+    public void setVariables()
+    {
+        GameObject.FindGameObjectWithTag("score").SetActive(true);
+        Debug.Log("set varabielssssssssss");
+        GameObject.FindGameObjectWithTag("score").GetComponent<calculateScore>().setVariables(duplicateTexture(Orig), readble, areasCoord);
+    }
     public Texture2D getCorrectPixelMouseClick(Vector2 dat, Texture2D pic,Color targetColor)
     {
         this.flag = false;
-        readble = duplicateTexture(pic);
-        Bwimg = duplicateTexture(Bwimg);
         Vector2 localCursor;
         var rect1 = GameObject.FindGameObjectWithTag("paintable").GetComponent<RectTransform>();
         var pos1 = dat;
@@ -74,9 +90,9 @@ public class FloodFill : MonoBehaviour
         helper.Apply();
         StartCoroutine(floodFill4Stack(targetColor, x, y));
 
-
         readble.Apply();
-        gameObject.GetComponent<Image>().overrideSprite = Sprite.Create(readble, new Rect(0.0f, 0.0f, readble.width, readble.height), new Vector2(0.5f, 0.5f), 100.0f);
+        gameObject.GetComponent<Image>().sprite = Sprite.Create(readble, new Rect(0.0f, 0.0f, readble.width, readble.height), new Vector2(0.5f, 0.5f), 100.0f); 
+        //gameObject.GetComponent<Image>().overrideSprite = Sprite.Create(readble, new Rect(0.0f, 0.0f, readble.width, readble.height), new Vector2(0.5f, 0.5f), 100.0f);
         return readble;
     }
 
@@ -87,11 +103,12 @@ public class FloodFill : MonoBehaviour
     IEnumerator floodFill4Stack(Color targetColor, int x, int y)
     {
         if (!CheckValidity(x, y, targetColor))  yield return null; //avoid infinite loop
-        //int iteration = 0;
-        //Stack<Vector2> st = new Stack<Vector2>();
-        //st.Push(new Vector2(x, y));
+
+        int iteration = 0;
+
         HashSet<Vector2> hs = new HashSet<Vector2>();
         hs.Add(new Vector2(x, y));
+        Debug.Log("x, y = " + x + "," + y);
         while (hs.Count > 0 && !this.flag)
         {
             Vector2 point = hs.ElementAt(hs.Count - 1);
@@ -107,17 +124,31 @@ public class FloodFill : MonoBehaviour
                 {
                     hs.Add(new Vector2(nx, ny));
                 }
-                //iteration++;
+                iteration++;
             }
-            //iteration++;
+            iteration++;
         }
+
         if (this.flag)
         {
             readble.SetPixels(helper.GetPixels());
         }
         yield return null;
+        if (!this.flag)
+        {
+            //it += iteration;
+            if (!areasCoord.ContainsKey(iteration))
+            {
+                areasCoord.Add(iteration, new Vector2(x, y));  
+            }
 
-        //Debug.Log("iterations: " + iteration);
+        }
+        
+
+        Debug.Log("iterations: " + it);
+        foreach(KeyValuePair<int,Vector2> item in areasCoord){
+            Debug.Log("area: " + item.ToString());
+        }
     }
 
     IEnumerator setColor(int x, int y, Color targetColor)
