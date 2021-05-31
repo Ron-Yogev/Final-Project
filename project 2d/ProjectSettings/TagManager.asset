@@ -12,6 +12,18 @@ TagManager:
   - confirmURL
   - score
   - routeLevel
+  - 1Arrow
+  - 6Arrow
+  - 3Arrow
+  - 10Arrow
+  - 2Arrow
+  - 7Arrow
+  - 4Arrow
+  - 9Arrow
+  - 8Arrow
+  - 5Arrow
+  - player
+  - painted
   layers:
   - Default
   - TransparentFX

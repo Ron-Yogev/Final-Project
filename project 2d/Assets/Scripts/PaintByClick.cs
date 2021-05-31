@@ -19,7 +19,7 @@ public class PaintByClick : MonoBehaviour
     [SerializeField] Texture2D pointerhIcon = null;
     [SerializeField] TextMeshProUGUI clock = null;
     [SerializeField] List<Button> buttons = null;
-    [SerializeField] bool isTutorial = false;
+    [SerializeField] bool tutorial = false;
     private bool isRunning = false;
     private bool onErase = false;
     private bool onPointer = false;
@@ -56,11 +56,11 @@ public class PaintByClick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isTutorial)
+        if (!tutorial)
         {
             isRunning = clock.GetComponent<CountBackTime>().isRunning();
         }
-        if (isRunning || isTutorial)
+        if (isRunning || tutorial)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -252,5 +252,8 @@ public class PaintByClick : MonoBehaviour
         Cursor.SetCursor(pointerhIcon, tmp, CursorMode.ForceSoftware);
     }
 
-
+    public bool isTutorial()
+    {
+        return tutorial;
+    }
 }

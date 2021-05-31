@@ -41,13 +41,15 @@ public class AnimationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) )
         {
             //get the position of the click
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit))
+            //RaycastHit hit;
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector2 pos = Input.mousePosition;
+            //get the position of the click
+            RaycastHit2D hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos));
+            if (true)
             {
                 if (hit.collider != null && hit.transform.tag == "color" && anim1)
                 {
@@ -57,7 +59,7 @@ public class AnimationController : MonoBehaviour
                     animations[1].SetActive(true);
                 }
 
-                if (hit.collider != null && hit.transform.tag == "paintable" && anim2)
+                else if (checkBorders(pos) && anim2)
                 {
                     anim2 = false;
                     animations[1].SetActive(false);
@@ -67,7 +69,7 @@ public class AnimationController : MonoBehaviour
                 }
 
 
-                if (hit.collider != null && hit.transform.tag == "paintable" && anim4)
+                else if (checkBorders(pos) && anim4)
                 {
                     combine_button.interactable = true;
                     anim4 = false;
@@ -76,7 +78,7 @@ public class AnimationController : MonoBehaviour
                     animations[4].SetActive(true);
                 }
 
-                if (hit.collider != null && hit.transform.tag == "uncolor" && anim7)
+                else if (hit.collider != null && hit.transform.tag == "uncolor" && anim7)
                 {
                     paint_button.interactable = true;
                     anim7 = false;
@@ -86,7 +88,7 @@ public class AnimationController : MonoBehaviour
 
                 }
 
-                if (hit.collider != null && hit.transform.tag == "paintable" && anim9)
+                else if (checkBorders(pos) && anim9)
                 {
                     finish_button.interactable = true;
                     anim9 = false;
@@ -142,7 +144,7 @@ public class AnimationController : MonoBehaviour
 
     public void checkSliderValue()
     {
-        if (anim6 && cyan==0f && yellow==1f && magenta==1f)
+        if (anim6 && cyan==0f && yellow==255f && magenta==255f)
         {
             anim6 = false;
             animations[5].SetActive(false);
@@ -177,5 +179,34 @@ public class AnimationController : MonoBehaviour
     public void backToManu()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    bool checkBorders(Vector2 dat)
+    {
+        Vector2 localCursor;
+        var rect1 = GameObject.FindGameObjectWithTag("paintable").GetComponent<RectTransform>();
+        var pos1 = dat;
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rect1, pos1,
+            null, out localCursor))
+        {
+            Debug.Log("its nullll in local cursor");
+            return false;
+        }
+
+        int xpos = (int)(localCursor.x);
+        int ypos = (int)(localCursor.y);
+
+        if (xpos < 0) xpos = xpos + (int)rect1.rect.width / 2;
+        else xpos += (int)rect1.rect.width / 2;
+
+        if (ypos > 0) ypos = ypos + (int)rect1.rect.height / 2;
+        else ypos += (int)rect1.rect.height / 2;
+
+        if (xpos < 0 || ypos < 0 || xpos > rect1.sizeDelta.x || ypos > rect1.sizeDelta.y)
+        {
+            Debug.Log("its nullll in border pos");
+            return false;
+        }
+        return true;
     }
 }

@@ -10,7 +10,8 @@ public class FloodFill : MonoBehaviour
 {
     Texture2D readble;
     Texture2D helper;
-    bool flag;
+    public bool flag;
+    public bool finished=false;
     Texture2D Bwimg;
     Texture2D Orig;
     int numPixels;
@@ -19,7 +20,16 @@ public class FloodFill : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(LateStart(0.5f));
+        if (GameObject.FindGameObjectWithTag("player").GetComponent<PaintByClick>().isTutorial())
+        {
+            readble = duplicateTexture(TextureToTexture2D(GameObject.FindGameObjectWithTag("paintable").GetComponent<Image>().mainTexture));
+            Bwimg = duplicateTexture(TextureToTexture2D(GameObject.FindGameObjectWithTag("paintable").GetComponent<Image>().mainTexture));
+            Orig = duplicateTexture(TextureToTexture2D(GameObject.FindGameObjectWithTag("painted").GetComponent<Image>().mainTexture));
+        }
+        else
+        {
+            StartCoroutine(LateStart(0.5f));
+        }
     }
 
     IEnumerator LateStart(float waitTime)
@@ -49,10 +59,26 @@ public class FloodFill : MonoBehaviour
         return readble;
     }
 
+    private Texture2D TextureToTexture2D(Texture texture)
+    {
+        Texture2D texture2D = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+        RenderTexture currentRT = RenderTexture.active;
+        RenderTexture renderTexture = RenderTexture.GetTemporary(texture.width, texture.height, 32);
+        Graphics.Blit(texture, renderTexture);
+
+        RenderTexture.active = renderTexture;
+        texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+        texture2D.Apply();
+
+        RenderTexture.active = currentRT;
+        RenderTexture.ReleaseTemporary(renderTexture);
+        return texture2D;
+    }
+
     public void setVariables()
     {
         GameObject.FindGameObjectWithTag("score").SetActive(true);
-        GameObject.FindGameObjectWithTag("score").GetComponent<calculateScore>().setVariables(duplicateTexture(Orig), readble, areasCoord);
+        GameObject.FindGameObjectWithTag("score").GetComponent<calculateScore>().setVariables(Orig, readble, areasCoord);
     }
     public Texture2D getCorrectPixelMouseClick(Vector2 dat,Color targetColor)
     {
@@ -94,7 +120,7 @@ public class FloodFill : MonoBehaviour
         helper.SetPixels(readble.GetPixels());
         helper.Apply();
         floodFill4Stack(targetColor, x, y);
-
+        finished = true;
         readble.Apply();
         gameObject.GetComponent<Image>().sprite = Sprite.Create(readble, new Rect(0.0f, 0.0f, readble.width, readble.height), new Vector2(0.5f, 0.5f), 100.0f); 
         return readble;
@@ -106,6 +132,7 @@ public class FloodFill : MonoBehaviour
     //4-way floodfill using our own stack routines
     void floodFill4Stack(Color targetColor, int x, int y)
     {
+        
         if (!CheckValidity(x, y, targetColor))  return; //avoid infinite loop
 
         int iteration = 0;

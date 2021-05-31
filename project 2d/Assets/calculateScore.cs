@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class calculateScore : MonoBehaviour
 {
     float score = 0;
-    int numPixels = 213165; //db;
+    int numPixels = 73810; //db;
     Texture2D coloredImg, BWImg;
     Dictionary<int, Vector2> areasCoord;
     const int allchannels = 765;
@@ -26,6 +26,14 @@ public class calculateScore : MonoBehaviour
 
     private void Start()
     {
+        if (tutorial)
+        {
+            numPixels = 12985;
+        }
+        else
+        {
+
+        }
         //username = .....
         ////numPixels = .....
     }
@@ -52,7 +60,6 @@ public class calculateScore : MonoBehaviour
 
     public void Calculate()
     {
-        float temp = 0;
         // The ratio of the number of parts multiplied by the range of values of the 3 color channels divided by the highest result 
         //float decrease = (float)size * allchannels / MAX_SCORE;
         float R = 0, G = 0, B = 0;
@@ -62,12 +69,12 @@ public class calculateScore : MonoBehaviour
             Vector2 coord = item.Value;
             Color colorOrig = coloredImg.GetPixel((int)coord.x, (int)coord.y);
             Color colorUser = BWImg.GetPixel((int)coord.x, (int)coord.y);
+            Debug.Log("orig" + colorOrig + ",user" + colorUser);
             R = Mathf.Abs(colorOrig.r - colorUser.r) * 255;
             G = Mathf.Abs(colorOrig.g - colorUser.g) * 255;
             B = Mathf.Abs(colorOrig.b - colorUser.b) * 255;
             float ratio = (allchannels - (R + G + B)) / allchannels; // when the error is bigger than 0 , the score decrease
             score += (item.Key / (float)numPixels) * 100 * ratio;
-            temp += (item.Key / (float)numPixels) * 100;
 
         }
         // round the score to integer
@@ -107,6 +114,10 @@ public class calculateScore : MonoBehaviour
 
     public void finishLevel()
     {
+        if (tutorial)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         if (score >= threshold)
         {
             
