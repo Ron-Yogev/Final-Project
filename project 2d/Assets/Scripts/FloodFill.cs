@@ -19,11 +19,16 @@ public class FloodFill : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(LateStart(0.5f));
+    }
+
+    IEnumerator LateStart(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
         readble = duplicateTexture(GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg());
         Bwimg = duplicateTexture(GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg());
         Orig = GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getColorImg();
     }
-
 
     Texture2D duplicateTexture(Texture2D source)  {
         RenderTexture renderTex = RenderTexture.GetTemporary(
@@ -47,11 +52,11 @@ public class FloodFill : MonoBehaviour
     public void setVariables()
     {
         GameObject.FindGameObjectWithTag("score").SetActive(true);
-        Debug.Log("set varabielssssssssss");
         GameObject.FindGameObjectWithTag("score").GetComponent<calculateScore>().setVariables(duplicateTexture(Orig), readble, areasCoord);
     }
-    public Texture2D getCorrectPixelMouseClick(Vector2 dat, Texture2D pic,Color targetColor)
+    public Texture2D getCorrectPixelMouseClick(Vector2 dat,Color targetColor)
     {
+        
         this.flag = false;
         Vector2 localCursor;
         var rect1 = GameObject.FindGameObjectWithTag("paintable").GetComponent<RectTransform>();
@@ -88,11 +93,10 @@ public class FloodFill : MonoBehaviour
         helper = new Texture2D(readble.width, readble.height);
         helper.SetPixels(readble.GetPixels());
         helper.Apply();
-        StartCoroutine(floodFill4Stack(targetColor, x, y));
+        floodFill4Stack(targetColor, x, y);
 
         readble.Apply();
         gameObject.GetComponent<Image>().sprite = Sprite.Create(readble, new Rect(0.0f, 0.0f, readble.width, readble.height), new Vector2(0.5f, 0.5f), 100.0f); 
-        //gameObject.GetComponent<Image>().overrideSprite = Sprite.Create(readble, new Rect(0.0f, 0.0f, readble.width, readble.height), new Vector2(0.5f, 0.5f), 100.0f);
         return readble;
     }
 
@@ -100,9 +104,9 @@ public class FloodFill : MonoBehaviour
     public static readonly int[] dy = { -1, 0, 1, 0 }; // relative neighbor y coordinates
 
     //4-way floodfill using our own stack routines
-    IEnumerator floodFill4Stack(Color targetColor, int x, int y)
+    void floodFill4Stack(Color targetColor, int x, int y)
     {
-        if (!CheckValidity(x, y, targetColor))  yield return null; //avoid infinite loop
+        if (!CheckValidity(x, y, targetColor))  return; //avoid infinite loop
 
         int iteration = 0;
 
@@ -113,9 +117,8 @@ public class FloodFill : MonoBehaviour
         {
             Vector2 point = hs.ElementAt(hs.Count - 1);
             hs.Remove(point);
-
-            StartCoroutine(setColor((int)point.x, (int)point.y, targetColor));
-            //screenBuffer[y * w + x] = newColor;
+            //StartCoroutine(setColor((int)point.x, (int)point.y, targetColor));
+            readble.SetPixel((int)point.x, (int)point.y, targetColor);
             for (int i = 0; i < 4; i++)
             {
                 int nx = (int)point.x + dx[i];
@@ -128,12 +131,11 @@ public class FloodFill : MonoBehaviour
             }
             iteration++;
         }
-
         if (this.flag)
         {
             readble.SetPixels(helper.GetPixels());
+            return;
         }
-        yield return null;
         if (!this.flag)
         {
             //it += iteration;
@@ -141,21 +143,13 @@ public class FloodFill : MonoBehaviour
             {
                 areasCoord.Add(iteration, new Vector2(x, y));  
             }
-
         }
-        
-
-        Debug.Log("iterations: " + it);
+        Debug.Log("iterations: " + iteration);
         foreach(KeyValuePair<int,Vector2> item in areasCoord){
             Debug.Log("area: " + item.ToString());
         }
     }
 
-    IEnumerator setColor(int x, int y, Color targetColor)
-    {
-        readble.SetPixel(x, y, targetColor);
-        yield return null;
-    }
     bool CheckValidity(int x, int y, Color TargetColor)
     {
         if (colorCompare(readble.GetPixel(x, y) , TargetColor))

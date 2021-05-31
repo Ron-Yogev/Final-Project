@@ -30,8 +30,7 @@ public class PaintByClick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        img = GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg();
-        Debug.Log("BWImg = " + img);
+        //StartCoroutine(LateStart(0.5f));
         int h = brushIcon.height;
         int w = brushIcon.width;
         Vector2 tmp = new Vector2(w * 0.2f, h * 0.8f);
@@ -41,13 +40,17 @@ public class PaintByClick : MonoBehaviour
         BucketColor = new Color();
         mixActive = false;
         slider_array = GameObject.FindGameObjectsWithTag("slider");
-        Debug.Log("sliders length:" + slider_array.Length);
         // pass over all sliders and hide them
         for (int i = 0; i < slider_array.Length; i++)
         {
             slider_array[i].SetActive(false);
         }
-        Debug.Log("start img: " + img);
+    }
+
+    IEnumerator LateStart(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        img = GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg();
     }
 
     // Update is called once per frame
@@ -62,7 +65,6 @@ public class PaintByClick : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 Vector2 pos = Input.mousePosition;
-                Debug.Log("mouse down img: " + img);
                 //get the position of the click
                 RaycastHit2D hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pos)); ;
 
@@ -71,7 +73,6 @@ public class PaintByClick : MonoBehaviour
                     //when the player click on one of the color spheres - the current color is update
                     if (hit.collider != null && hit.transform.tag == "color" && !onErase && !onPointer)
                     {
-                        Debug.Log("in bucket colider: ");
                         cur_color = hit.collider.gameObject.GetComponent<SpriteRenderer>().color;//.GetColor("_Color");
                         temp_curr = cur_color;
                         image_curr_color.GetComponent<Image>().color = cur_color;
@@ -84,7 +85,7 @@ public class PaintByClick : MonoBehaviour
                         {
                             if (checkBorders(pos))
                             {
-                                img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(pos, img, Color.white);
+                                /*img =*/ GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(pos, Color.white);
                             }
 
                         }
@@ -93,8 +94,7 @@ public class PaintByClick : MonoBehaviour
 
                             if (checkBorders(pos))
                             {
-                                img = GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition, img,cur_color);
-                                Debug.Log("img after click = " + img);
+                                /*img =*/ GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition,cur_color);
                             }
                             
                         }

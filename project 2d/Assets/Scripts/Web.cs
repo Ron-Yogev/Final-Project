@@ -196,8 +196,6 @@ public class Web : MonoBehaviour
 
     public IEnumerator retrieveImg(string uri, int level, bool isBW, System.Action<Sprite,bool> callback)
     {
-        Debug.Log("in retrieveImg");
-
         WWWForm form = new WWWForm();
         int bw;
         if (isBW) bw = 1;
@@ -215,20 +213,15 @@ public class Web : MonoBehaviour
             }
             else
             {
-                Debug.Log("in Web class - its good,  isBW = " + isBW);
-
                 byte[] bytes = www.downloadHandler.data;
-               
+                
                 Texture2D texture = new Texture2D(2, 2);
                 texture.LoadImage(bytes);
-                Debug.Log("syze bytes = " + bytes.Length);
 
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 
                 callback(sprite,isBW);
 
-
-                Debug.Log(www.downloadHandler.text);
             }
         }
     }

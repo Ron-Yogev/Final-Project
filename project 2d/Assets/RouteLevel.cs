@@ -6,36 +6,38 @@ using UnityEngine.UI;
 
 public class RouteLevel : MonoBehaviour
 {
-
     [SerializeField]
     Image colorImg;
     [SerializeField]
     Image bwImg;
     private const string retrieveUrl = "http://localhost/UnityBackend/retrieveImg.php";
 
-    
-
     // Start is called before the first frame update
     void Start()
     {
-        Action<Sprite,bool> getSpriteCallback = (DownloadedImg,bw) =>
+        StartCoroutine(LateStart(0.3f));
+    }
+
+    IEnumerator LateStart(float waitTime)
+    {
+        Action<Sprite, bool> getSpriteCallback = (DownloadedImg, bw) =>
         {
             if (bw)
             {
-                bwImg.overrideSprite = DownloadedImg;
+                bwImg.sprite = DownloadedImg;
+               // bwImg.overrideSprite = DownloadedImg;
             }
             else
             {
-                colorImg.overrideSprite = DownloadedImg;
+                colorImg.sprite = DownloadedImg;
+               // colorImg.overrideSprite = DownloadedImg;
             }
-            //gameObject.GetComponent<Image>().overrideSprite
-            Debug.Log("retrieveee to unityyyyyyyyyy,  isBW = " + bw);
 
         };
+        yield return new WaitForSeconds(waitTime);
 
         StartCoroutine(Main.instance.web.retrieveImg(retrieveUrl, 1, true, getSpriteCallback));
         StartCoroutine(Main.instance.web.retrieveImg(retrieveUrl, 1, false, getSpriteCallback));
-
     }
 
     public Texture2D getColorImg()
