@@ -106,8 +106,7 @@ public class Web : MonoBehaviour
                 }
             }
         }
-
-       
+        
     }
 
     public IEnumerator RegisterUser(string uri, string username, string password)
@@ -226,7 +225,6 @@ public class Web : MonoBehaviour
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 
                 callback(sprite,isBW);
-
             }
         }
     }
@@ -239,10 +237,12 @@ public class Web : MonoBehaviour
 
         using (UnityWebRequest www = UnityWebRequest.Post(uri, form))
         {
+            Debug.Log("in getLevelVars before yield");
             yield return www.SendWebRequest();
-
+            Debug.Log("in getLevelVars after yield");
             if (www.result != UnityWebRequest.Result.Success)
             {
+                Debug.Log("in getLevelVars error");
                 Debug.Log(www.error);
             }
             else
@@ -280,10 +280,13 @@ public class Web : MonoBehaviour
             }
             else
             {
-                Debug.Log(www.downloadHandler.text);
+                Debug.Log("text rom php = "+www.downloadHandler.text);
                 Debug.Log("update baini");
             }
         }
+
+       StartCoroutine(Main.instance.web.getLevelVars("http://localhost/UnityBackend/retrieveVars.php"));
+
     }
 
     public int[] parseVars(string data)

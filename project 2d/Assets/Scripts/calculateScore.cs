@@ -89,6 +89,11 @@ public class calculateScore : MonoBehaviour
     {
         if (score >= threshold)
         {
+            if (!tutorial)
+            {
+                StartCoroutine(Main.instance.web.updateLevel(setLevelUrl));
+                Web.setLevel(Web.level + 1);
+            }
             //SoundManagerScript.PlaySound("win");
             gameObject.GetComponent<TextMeshProUGUI>().color = new Color(60 / 255f, 179 / 255f, 113 / 255f, 1f);
             nextLevelBtn.GetComponentInChildren<Text>().text = "Next Level!";
@@ -108,24 +113,20 @@ public class calculateScore : MonoBehaviour
         menuBtn.gameObject.SetActive(true);
         nextLevelBtn.gameObject.SetActive(true);
 
+       // StartCoroutine(LateStart(0.25f));
 
+    }
 
+    IEnumerator LateStart(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
 
+        Main.instance.web.getLevelVars("http://localhost/UnityBackend/retrieveVars.php");
     }
 
     public void finishLevel()
     {
-        if (tutorial)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-        if (score >= threshold)
-        {
-            StartCoroutine(Main.instance.web.updateLevel(setLevelUrl));
-            Web.setLevel(Web.level + 1);
-            StartCoroutine(Main.instance.web.getLevelVars("http://localhost/UnityBackend/retrieveVars.php"));
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
     }

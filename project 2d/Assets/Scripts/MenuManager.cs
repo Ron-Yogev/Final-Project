@@ -5,7 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-   public void playGame()
+
+    private void Start()
+    {
+        StartCoroutine(Main.instance.web.getLevelVars("http://localhost/UnityBackend/retrieveVars.php"));
+    }
+    public void playGame()
     {
         SceneManager.LoadScene("Game");
     }
