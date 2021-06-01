@@ -165,7 +165,8 @@ public class FloodFill : MonoBehaviour
         }
         if (!this.flag)
         {
-            //it += iteration;
+            it += iteration;
+            Debug.Log("it = " + it);
             if (!areasCoord.ContainsKey(iteration))
             {
                 areasCoord.Add(iteration, new Vector2(x, y));  

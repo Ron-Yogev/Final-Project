@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CountBackTime : MonoBehaviour
 {
-    [SerializeField] int minutes = 1;
-    [SerializeField] int seconds = 30;
+    int minutes = Web.timeInSec / 60;
+    int seconds = Web.timeInSec % 60;
     [SerializeField]
     TextMeshProUGUI text;
     

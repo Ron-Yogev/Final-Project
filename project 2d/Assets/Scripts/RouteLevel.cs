@@ -36,8 +36,8 @@ public class RouteLevel : MonoBehaviour
         };
         yield return new WaitForSeconds(waitTime);
 
-        StartCoroutine(Main.instance.web.retrieveImg(retrieveUrl, 1, true, getSpriteCallback));
-        StartCoroutine(Main.instance.web.retrieveImg(retrieveUrl, 1, false, getSpriteCallback));
+        StartCoroutine(Main.instance.web.retrieveImg(retrieveUrl, Web.level, true, getSpriteCallback));
+        StartCoroutine(Main.instance.web.retrieveImg(retrieveUrl, Web.level, false, getSpriteCallback));
     }
 
     public Texture2D getColorImg()

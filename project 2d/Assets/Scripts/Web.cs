@@ -6,7 +6,10 @@ using UnityEngine.Networking;
 public class Web : MonoBehaviour
 {
 
-    public static int level;
+    public static int level = 1;
+    public static int threshold = 80;
+    public static int numPixels = 100000;
+    public static int timeInSec = 120;
     public static string user;
     void Start()
     {
@@ -95,15 +98,16 @@ public class Web : MonoBehaviour
                 string data = www.downloadHandler.text;
                 if (data != "Wrong Credentials." && data != "Username dosent exist.")
                 {
-
-                    int level = Int32.Parse(data);
+                    user = username;
+                    level = Int32.Parse(data);
                     Debug.Log("level = " + level);
-                    //mainmenu.setLevel(level,username);
 
                     UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
                 }
             }
         }
+
+       
     }
 
     public IEnumerator RegisterUser(string uri, string username, string password)
@@ -140,7 +144,7 @@ public class Web : MonoBehaviour
         }
     }
 
-    public IEnumerator uploadImage(string uri, Texture2D img, Texture2D BWimg, string username, int threshold, int numPixels)
+    public IEnumerator uploadImage(string uri, Texture2D img, Texture2D BWimg, string username, int threshold, int numPixels, int timeInSec)
     {
         WWWForm form = new WWWForm();
         Texture2D imgTexture = GetTextureCopy(img);
@@ -154,6 +158,7 @@ public class Web : MonoBehaviour
         form.AddField("username", username); // post form in php
         form.AddField("threshold", threshold);
         form.AddField("numPixels", numPixels);
+        form.AddField("time", timeInSec);
 
         form.AddBinaryData("myimage", texBytes, "imagefronUnity.png", "image/png");
 
@@ -226,9 +231,70 @@ public class Web : MonoBehaviour
         }
     }
 
-    public static int getLevel()
+    public IEnumerator getLevelVars(string uri)
     {
-        return level;
+        Debug.Log("in getLevelVars");
+        WWWForm form = new WWWForm();
+        form.AddField("level", level); // post form in php
+
+        using (UnityWebRequest www = UnityWebRequest.Post(uri, form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string data = www.downloadHandler.text;
+                Debug.Log("data = " + data);
+                int[] vars = parseVars(data);
+                threshold = vars[0];
+                Debug.Log("vars[0] =  " + vars[0]);
+                numPixels = vars[1];
+                Debug.Log("vars[1] = " + vars[1]);
+                timeInSec = vars[2];
+                Debug.Log("vars[2] = " + vars[2]);
+                Debug.Log("vars = " + vars);
+            }
+        }
+    }
+
+    public IEnumerator updateLevel(string uri)
+    {
+        Debug.Log("in update level");
+        WWWForm form = new WWWForm();
+        form.AddField("user", user); // post form in php
+
+        using (UnityWebRequest www = UnityWebRequest.Post(uri, form))
+        {
+            Debug.Log("before yield");
+            yield return www.SendWebRequest();
+            Debug.Log("after yield");
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log("lo baini");
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log(www.downloadHandler.text);
+                Debug.Log("update baini");
+            }
+        }
+    }
+
+    public int[] parseVars(string data)
+    {
+        string[] vars = data.Split(',');
+        int[] ans = new int[3];
+        for(int i=0;i<vars.Length; i++)
+        {
+            ans[i] = Int32.Parse(vars[i]);
+        }
+        return ans;
     }
 
     public static string getUser()
@@ -236,7 +302,7 @@ public class Web : MonoBehaviour
         return user;
     }
 
-    public void setLevel(int level)
+    public static void setLevel(int level)
     {
         Web.level = level;
     }

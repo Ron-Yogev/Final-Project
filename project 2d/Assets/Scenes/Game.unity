@@ -270,8 +270,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a567b7620f09054f823e3777086da5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minutes: 1
-  seconds: 30
   text: {fileID: 40057850}
 --- !u!1 &88564740
 GameObject:
@@ -2292,6 +2290,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1258919270}
+        m_TargetAssemblyTypeName: calculateScore, Assembly-CSharp
+        m_MethodName: finishLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &951616915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2417,7 +2427,7 @@ GameObject:
   - component: {fileID: 1048518066}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2446,7 +2456,7 @@ MonoBehaviour:
   - {fileID: 901352360}
   - {fileID: 1603388496}
   - {fileID: 1615135233}
-  isTutorial: 0
+  tutorial: 0
 --- !u!4 &1048518067
 Transform:
   m_ObjectHideFlags: 0
@@ -4578,6 +4588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a16ba4d865c0f474ab4c49bb4d846d58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flag: 0
+  finished: 0
 --- !u!1 &2024319163
 GameObject:
   m_ObjectHideFlags: 0

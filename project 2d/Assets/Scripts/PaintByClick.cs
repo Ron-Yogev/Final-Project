@@ -30,7 +30,6 @@ public class PaintByClick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(LateStart(0.5f));
         int h = brushIcon.height;
         int w = brushIcon.width;
         Vector2 tmp = new Vector2(w * 0.2f, h * 0.8f);
@@ -45,12 +44,6 @@ public class PaintByClick : MonoBehaviour
         {
             slider_array[i].SetActive(false);
         }
-    }
-
-    IEnumerator LateStart(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        img = GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg();
     }
 
     // Update is called once per frame

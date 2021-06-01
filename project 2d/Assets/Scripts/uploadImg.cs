@@ -23,7 +23,7 @@ public class uploadImg : MonoBehaviour
         uploadBtn.onClick.AddListener(() =>
         {
             StartCoroutine(Main.instance.web.uploadImage(uploadUrl, TextureToTexture2D(img.mainTexture), TextureToTexture2D(BWimg.mainTexture),
-                username, threshold, numPixels));
+                username, threshold, numPixels, 120));
         });
 
     }
