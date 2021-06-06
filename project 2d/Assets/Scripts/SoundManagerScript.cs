@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class SoundManagerScript : MonoBehaviour
 {
-    [SerializeField] int level = 1;
-    public static AudioClip paint, combine, erase, click, win, lose, crowd_panik, countdown, bk0, bk1, bk2, bk3, bk4, bk5, final_bk, menu_bk;
+    public bool inMenu, isTurorial;
+    public static AudioClip paint, combine, erase, click, win, lose, crowd_panik, countdown, bk0, bk1, bk2, bk3, bk4, bk5, bk6, menu_bk;
     static AudioSource audioSrc;
 
-    static float music_v = 0.2f;
+    static float music_v = 0.1f;
     static float SFX_v = 0.4f;
 
     // Start is called before the first frame update
@@ -29,7 +29,7 @@ public class SoundManagerScript : MonoBehaviour
         bk3 = Resources.Load<AudioClip>("background3");
         bk4 = Resources.Load<AudioClip>("background4");
         bk5 = Resources.Load<AudioClip>("background5");
-        final_bk = Resources.Load<AudioClip>("final_level_background");
+        bk6 = Resources.Load<AudioClip>("background6");
         menu_bk = Resources.Load<AudioClip>("MenuBackGround");
 
 
@@ -48,33 +48,25 @@ public class SoundManagerScript : MonoBehaviour
 
     public void PlayBackground()
     {
-        switch (level)
+        if (!inMenu && !isTurorial)
         {
-            case -1:
-                PlaySound("MenuBackGround");
-                break;
-            case 0:
-                PlaySound("background0");
-                break;
-            case 1:
-                PlaySound("background1");
-                break;
-            case 2:
-                PlaySound("background2");
-                break;
-            case 3:
-                PlaySound("background3");
-                break;
-            case 4:
-                PlaySound("background4");
-                break;
-            case 5:
-                PlaySound("background5");
-                break;
-            case 6:
-                PlaySound("final_level_background");
-                break;
+            int rand = 0;
+            for (int i = 0; i < 100; i++)
+            {
+                rand = Random.Range(1, 7);
+                Debug.Log("rand = " + rand);
+            }
+            PlaySound("background" + rand);
         }
+        else if(!isTurorial)
+        {
+            PlaySound("MenuBackGround");
+        }
+        else
+        {
+            PlaySound("background0");
+        }
+
     }
 
     public static void PlaySound(string clip)
@@ -124,7 +116,7 @@ public class SoundManagerScript : MonoBehaviour
                 audioSrc.PlayOneShot(bk5, music_v);
                 break;
             case "final_level_background":
-                audioSrc.PlayOneShot(final_bk, music_v);
+                audioSrc.PlayOneShot(bk6, music_v);
                 break;
             case "MenuBackGround":
                 audioSrc.PlayOneShot(menu_bk, music_v);

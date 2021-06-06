@@ -19,4 +19,11 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("UploadImage");
     }
+
+    public void Tutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
+
+    
 }

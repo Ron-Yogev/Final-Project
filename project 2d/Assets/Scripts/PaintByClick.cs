@@ -78,7 +78,8 @@ public class PaintByClick : MonoBehaviour
                         {
                             if (checkBorders(pos))
                             {
-                                /*img =*/ GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(pos, Color.white);
+                                SoundManagerScript.PlaySound("erase");
+                                GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(pos, Color.white);
                             }
 
                         }
@@ -87,7 +88,8 @@ public class PaintByClick : MonoBehaviour
 
                             if (checkBorders(pos))
                             {
-                                /*img =*/ GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition,cur_color);
+                                SoundManagerScript.PlaySound("paint");
+                                GameObject.FindGameObjectWithTag("paintable").GetComponent<FloodFill>().getCorrectPixelMouseClick(Input.mousePosition,cur_color);
                             }
                             
                         }
@@ -98,7 +100,7 @@ public class PaintByClick : MonoBehaviour
                     {
                         if (mixActive)
                         {
-                            //SoundManagerScript.PlaySound("combine");
+                            SoundManagerScript.PlaySound("combine");
                             BucketColor = hit.collider.gameObject.GetComponent<newMixedColor>().getCurrColor();
                             cur_color = BucketColor;
                             temp_curr = cur_color;
@@ -161,7 +163,7 @@ public class PaintByClick : MonoBehaviour
      */
     public void setOnErase()
     {
-        //SoundManagerScript.PlaySound("click");
+        SoundManagerScript.PlaySound("click");
         onErase = true;
     }
     /*
@@ -176,7 +178,7 @@ public class PaintByClick : MonoBehaviour
      */
     public void setOnPointer()
     {
-        //SoundManagerScript.PlaySound("click");
+        SoundManagerScript.PlaySound("click");
         onPointer = true;
 
     }
@@ -213,7 +215,7 @@ public class PaintByClick : MonoBehaviour
      */
     public void closeSliders()
     {
-        //SoundManagerScript.PlaySound("click");
+        SoundManagerScript.PlaySound("click");
         for (int i = 0; i < slider_array.Length; i++)
         {
             slider_array[i].SetActive(false);

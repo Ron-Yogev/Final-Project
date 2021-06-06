@@ -25,7 +25,7 @@ public class calculateScore : MonoBehaviour
     string username;
     private const string setLevelUrl = "http://localhost/UnityBackend/updateLevel.php";
 
-
+    const int MAX_LEVEL = 9;
 
     private void Start()
     {
@@ -78,6 +78,7 @@ public class calculateScore : MonoBehaviour
             score += (item.Key / (float)numPixels) * 100 * ratio;
 
         }
+        
         // round the score to integer
 
         textToUser();
@@ -87,20 +88,20 @@ public class calculateScore : MonoBehaviour
 
     public void textToUser()
     {
-        if (score >= threshold)
+        if (score >= threshold )
         {
-            if (!tutorial)
+            SoundManagerScript.PlaySound("win");
+            if (!tutorial && Web.level < MAX_LEVEL)
             {
                 StartCoroutine(Main.instance.web.updateLevel(setLevelUrl));
                 Web.setLevel(Web.level + 1);
             }
-            //SoundManagerScript.PlaySound("win");
             gameObject.GetComponent<TextMeshProUGUI>().color = new Color(60 / 255f, 179 / 255f, 113 / 255f, 1f);
             nextLevelBtn.GetComponentInChildren<Text>().text = "Next Level!";
         }
         else
         {
-            //SoundManagerScript.PlaySound("lose");
+            SoundManagerScript.PlaySound("lose");
             gameObject.GetComponent<TextMeshProUGUI>().color = new Color(220 / 255f, 20 / 255f, 60 / 255f, 1f);
             nextLevelBtn.GetComponentInChildren<Text>().text = "Try Again";
         }
@@ -113,7 +114,6 @@ public class calculateScore : MonoBehaviour
         menuBtn.gameObject.SetActive(true);
         nextLevelBtn.gameObject.SetActive(true);
 
-       // StartCoroutine(LateStart(0.25f));
 
     }
 
@@ -126,9 +126,14 @@ public class calculateScore : MonoBehaviour
 
     public void finishLevel()
     {
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
+        if(Web.level == MAX_LEVEL)
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     public void finishToMenu()
