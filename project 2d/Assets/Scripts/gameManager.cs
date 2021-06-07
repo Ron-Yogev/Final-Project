@@ -38,6 +38,11 @@ public class gameManager : MonoBehaviour
         SceneManager.LoadScene("UploadImage");
     }
 
+    public void buttonBack()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     IEnumerator GetImageFromWeb(string x)
     {
         UnityEngine.Networking.UnityWebRequest req = UnityWebRequestTexture.GetTexture(x);
