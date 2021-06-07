@@ -137,7 +137,6 @@ public class PaintByClick : MonoBehaviour
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rect1, pos1,
             null, out localCursor))
         {
-            Debug.Log("its nullll in local cursor");
             return false;
         }
 
@@ -152,7 +151,6 @@ public class PaintByClick : MonoBehaviour
 
         if (xpos < 0 || ypos < 0 || xpos > rect1.sizeDelta.x || ypos > rect1.sizeDelta.y)
         {
-            Debug.Log("its nullll in border pos");
             return false;
         }
         return true;

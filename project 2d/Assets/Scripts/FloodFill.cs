@@ -77,7 +77,7 @@ public class FloodFill : MonoBehaviour
 
     public void setVariables()
     {
-        GameObject.FindGameObjectWithTag("score").SetActive(true);
+        //GameObject.FindGameObjectWithTag("score").SetActive(true);
         GameObject.FindGameObjectWithTag("score").GetComponent<calculateScore>().setVariables(Orig, readble, areasCoord);
     }
     public Texture2D getCorrectPixelMouseClick(Vector2 dat,Color targetColor)

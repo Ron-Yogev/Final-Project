@@ -51,11 +51,7 @@ public class SoundManagerScript : MonoBehaviour
         if (!inMenu && !isTurorial)
         {
             int rand = 0;
-            for (int i = 0; i < 100; i++)
-            {
-                rand = Random.Range(1, 7);
-                Debug.Log("rand = " + rand);
-            }
+            rand = Random.Range(1, 7);
             PlaySound("background" + rand);
         }
         else if(!isTurorial)

@@ -3531,7 +3531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1258919267
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3571,7 +3571,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'SCORE : 100'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7e4d283ca0d9f943bd9e75a1fbdc517, type: 2}
   m_sharedMaterial: {fileID: -1142958037751521570, guid: e7e4d283ca0d9f943bd9e75a1fbdc517, type: 2}
