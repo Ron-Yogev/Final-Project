@@ -1051,7 +1051,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d4736a1666c4c9144b65f0bdad6a9d82, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2950,8 +2950,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c5a7b3bde33dc41b949218d1532bad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cur_color: {r: 1, g: 1, b: 0, a: 0}
-  mouse_pos: {x: 0, y: 0, z: 0}
   slider_array: []
   brushIcon: {fileID: 2800000, guid: 00c1862f70521ee44a531a57ad93c6b7, type: 3}
   erasehIcon: {fileID: 2800000, guid: 196ad2eece0e8d54293590d436d8e8ef, type: 3}
@@ -4354,7 +4352,7 @@ GameObject:
   - component: {fileID: 1615135233}
   m_Layer: 5
   m_Name: homeButton
-  m_TagString: Untagged
+  m_TagString: home
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5257,7 +5255,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: ca2e69a4c706a7b42b19e6f2180c1781, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

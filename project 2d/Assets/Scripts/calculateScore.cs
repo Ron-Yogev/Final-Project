@@ -22,6 +22,7 @@ public class calculateScore : MonoBehaviour
     Button menuBtn;
     [SerializeField]
     bool tutorial;
+    public static bool isDemo = false;
     string username;
     private const string setLevelUrl = "http://localhost/UnityBackend/updateLevel.php";
 
@@ -38,6 +39,13 @@ public class calculateScore : MonoBehaviour
         {
             threshold = Web.threshold;
             numPixels = Web.numPixels;
+        }
+
+        if (isDemo)
+        {
+            GameObject.FindGameObjectWithTag("home").GetComponent<Button>().interactable = false;
+            threshold = 80;
+            numPixels = 213165;
         }
     }
 
@@ -110,11 +118,17 @@ public class calculateScore : MonoBehaviour
         {
             nextLevelBtn.GetComponentInChildren<Text>().text = "Try Again";
         }
+        if (isDemo)
+        {
+            nextLevelBtn.GetComponentInChildren<Text>().text = "Try Again";
+            nextLevelBtn.gameObject.SetActive(true);
 
-        menuBtn.gameObject.SetActive(true);
-        nextLevelBtn.gameObject.SetActive(true);
-
-
+        }
+        else
+        {
+            menuBtn.gameObject.SetActive(true);
+            nextLevelBtn.gameObject.SetActive(true);
+        }
     }
 
     IEnumerator LateStart(float waitTime)
@@ -126,6 +140,10 @@ public class calculateScore : MonoBehaviour
 
     public void finishLevel()
     {
+        if (isDemo)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         if(Web.level == MAX_LEVEL)
         {
             SceneManager.LoadScene("MainMenu");

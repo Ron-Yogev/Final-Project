@@ -24,6 +24,7 @@ TagManager:
   - 5Arrow
   - player
   - painted
+  - home
   layers:
   - Default
   - TransparentFX

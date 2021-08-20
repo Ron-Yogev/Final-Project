@@ -11,7 +11,16 @@ public class getLevel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        back_level.text = "LEVEL " + Web.level;
-        front_level.text = "LEVEL " + Web.level;
+        if (calculateScore.isDemo)
+        {
+            back_level.text = "DEMO";
+            front_level.text = "DEMO";
+        }
+        else
+        {
+            back_level.text = "LEVEL " + Web.level;
+            front_level.text = "LEVEL " + Web.level;
+        }
+        
     }
 }
