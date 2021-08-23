@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ public class Areas : MonoBehaviour
     Texture2D passedImg;
     Texture2D helpImg;
     Texture2D helperFill;
+    private const string uploadUrl = "http://localhost/UnityBackend/uploaderImg.php";
 
     [SerializeField]
     Button finishBtn = null;
@@ -18,9 +20,16 @@ public class Areas : MonoBehaviour
     Button playBtn = null;
     [SerializeField]
     Button menuBtn = null;
+    [SerializeField]
+    InputField threshld = null;
+    [SerializeField]
+    InputField timeMin = null;
+    [SerializeField]
+    InputField timeSec = null;
 
     bool flag;
     int pos = -1;
+    int it;
     List<List<Vector2>> areas = new List<List<Vector2>>();
     // Start is called before the first frame update
     void Start()
@@ -53,6 +62,8 @@ public class Areas : MonoBehaviour
 
     public void finishButton()
     {
+        int timeInSec = Int32.Parse(timeMin.text) * 60 + Int32.Parse(timeSec.text);
+        StartCoroutine(Main.instance.web.uploadImage(uploadUrl,passedImg,grayImg,Main.instance.web.getCurrentUser(),Int32.Parse(threshld.text),it,timeInSec));
         finishBtn.gameObject.SetActive(false);
         playBtn.gameObject.SetActive(true);
         menuBtn.gameObject.SetActive(true);
@@ -173,6 +184,7 @@ public class Areas : MonoBehaviour
                 {
                     hs.Add(new Vector2(nx, ny));
                 }
+                iterations++;
             }
             iterations++;
         }
@@ -182,12 +194,13 @@ public class Areas : MonoBehaviour
             pos--;
             helpImg.SetPixels(helperFill.GetPixels());
         }
+        it += iterations;
         Debug.Log("iterations:" + iterations);
     }
 
     bool CheckValidity(Vector2 p, Color TargetColor)
     {
-        if (helpImg.GetPixel((int)p.x, (int)p.y) == TargetColor)
+        if (colorCompare(helpImg.GetPixel((int)p.x, (int)p.y) , TargetColor))
         {
             return false;
         }
@@ -202,5 +215,14 @@ public class Areas : MonoBehaviour
         }
 
         return true;
+    }
+
+    bool colorCompare(Color a, Color b)
+    {
+        if ((a.r + 0.01 > b.r && a.r - 0.01 < b.r) &&
+            (a.g + 0.01 > b.g && a.g - 0.01 < b.g) &&
+            (a.b + 0.01 > b.b && a.b - 0.01 < b.b)) return true;
+        return false;
+
     }
 }

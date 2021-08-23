@@ -52,6 +52,10 @@ public class Web : MonoBehaviour
         }
     }
 
+    public string getCurrentUser()
+    {
+        return user;
+    }
 
     public IEnumerator GetUsers(string uri)
     {
@@ -99,6 +103,7 @@ public class Web : MonoBehaviour
                 if (data != "Wrong Credentials." && data != "Username dosent exist.")
                 {
                     user = username;
+                    Debug.Log(data);
                     level = Int32.Parse(data);
                     Debug.Log("level = " + level);
 

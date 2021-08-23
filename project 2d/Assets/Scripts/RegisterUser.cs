@@ -38,7 +38,7 @@ public class RegisterUser : MonoBehaviour
             }
             StartCoroutine(Main.instance.web.RegisterUser(registerUrl, usernameInput.text, passwordInput.text));
             Toast.Instance.Show("Creating user...", 3f, Toast.ToastColor.Green);
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
             
         });
 
