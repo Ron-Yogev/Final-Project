@@ -11,6 +11,9 @@ public class RouteLevel : MonoBehaviour
     [SerializeField]
     Image bwImg;
     private const string retrieveUrl = "http://localhost/UnityBackend/retrieveImg.php";
+    private const string retrieveCustomUrl = "http://localhost/UnityBackend/customRetrieve.php";
+
+    public static bool isCustom = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +25,7 @@ public class RouteLevel : MonoBehaviour
     {
         Action<Sprite, bool> getSpriteCallback = (DownloadedImg, bw) =>
         {
+            Debug.Log("before bwImg.sprite = DownloadedImg;");
             if (bw)
             {
                 bwImg.sprite = DownloadedImg;
@@ -35,9 +39,15 @@ public class RouteLevel : MonoBehaviour
 
         };
         yield return new WaitForSeconds(waitTime);
-
-        StartCoroutine(Main.instance.web.retrieveImg(retrieveUrl, Web.level, true, getSpriteCallback));
-        StartCoroutine(Main.instance.web.retrieveImg(retrieveUrl, Web.level, false, getSpriteCallback));
+        Debug.Log("before StartCoroutine");
+        string uri = retrieveUrl;
+        if (isCustom)
+        {
+            uri = retrieveCustomUrl;
+        }
+        Debug.Log("uri = " + uri);
+        StartCoroutine(Main.instance.web.retrieveImg(uri, Web.level, true, getSpriteCallback));
+        StartCoroutine(Main.instance.web.retrieveImg(uri, Web.level, false, getSpriteCallback));
 
     }
 
@@ -65,5 +75,10 @@ public class RouteLevel : MonoBehaviour
         RenderTexture.active = currentRT;
         RenderTexture.ReleaseTemporary(renderTexture);
         return texture2D;
+    }
+
+    public void setOffCustom()
+    {
+        isCustom = false;
     }
 }

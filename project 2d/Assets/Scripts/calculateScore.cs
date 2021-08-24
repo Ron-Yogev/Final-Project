@@ -23,6 +23,7 @@ public class calculateScore : MonoBehaviour
     [SerializeField]
     bool tutorial;
     public static bool isDemo = false;
+ 
     string username;
     private const string setLevelUrl = "http://localhost/UnityBackend/updateLevel.php";
 
@@ -35,17 +36,26 @@ public class calculateScore : MonoBehaviour
             threshold = 100;
             numPixels = 12985;
         }
+        else if(isDemo)
+        {
+
+            GameObject.FindGameObjectWithTag("home").GetComponent<Button>().interactable = false;
+            threshold = 80;
+            numPixels = 213165;
+            
+        }
+        
+        else if (RouteLevel.isCustom)
+        {
+            
+            //GameObject.FindGameObjectWithTag("home").GetComponent<Button>().interactable = false;
+            threshold = Areas.threshold;
+            numPixels = Areas.it;
+        }
         else
         {
             threshold = Web.threshold;
             numPixels = Web.numPixels;
-        }
-
-        if (isDemo)
-        {
-            GameObject.FindGameObjectWithTag("home").GetComponent<Button>().interactable = false;
-            threshold = 80;
-            numPixels = 213165;
         }
     }
 

@@ -16,6 +16,11 @@ public class getLevel : MonoBehaviour
             back_level.text = "DEMO";
             front_level.text = "DEMO";
         }
+        else if (RouteLevel.isCustom)
+        {
+            back_level.text = Main.instance.web.getCurrentUser() +" LEVEL";
+            front_level.text = Main.instance.web.getCurrentUser() + " LEVEL";
+        }
         else
         {
             back_level.text = "LEVEL " + Web.level;

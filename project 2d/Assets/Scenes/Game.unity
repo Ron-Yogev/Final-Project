@@ -1176,6 +1176,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1727013280}
+        m_TargetAssemblyTypeName: RouteLevel, Assembly-CSharp
+        m_MethodName: setOffCustom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &256084985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1840,8 +1852,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 223, y: 210}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 203.28438, y: 208.2286}
+  m_SizeDelta: {x: 258.2083, y: 53.5428}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &611777255
 MonoBehaviour:
@@ -3738,8 +3750,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 223, y: 207}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 203.28438, y: 205.01602}
+  m_SizeDelta: {x: 258.2083, y: 53.5428}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1417653971
 MonoBehaviour:
@@ -4435,6 +4447,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1048518066}
         m_TargetAssemblyTypeName: PaintByClick, Assembly-CSharp
         m_MethodName: setPointerIcon
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1727013280}
+        m_TargetAssemblyTypeName: RouteLevel, Assembly-CSharp
+        m_MethodName: setOffCustom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

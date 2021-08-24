@@ -18,18 +18,24 @@ public class Areas : MonoBehaviour
     Button finishBtn = null;
     [SerializeField]
     Button playBtn = null;
-    [SerializeField]
-    Button menuBtn = null;
+    //[SerializeField]
+    //Button menuBtn = null;
     [SerializeField]
     InputField threshld = null;
     [SerializeField]
     InputField timeMin = null;
     [SerializeField]
     InputField timeSec = null;
+    
+
+    public static int timeInSec;
+    public static int threshold;
+    public static int it;
 
     bool flag;
+    bool finish = false;
     int pos = -1;
-    int it;
+    
     List<List<Vector2>> areas = new List<List<Vector2>>();
     // Start is called before the first frame update
     void Start()
@@ -53,31 +59,35 @@ public class Areas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !finish)
         {
             this.flag = false;
             getCorrectPixelMouseClick(Input.mousePosition);
         }
     }
 
+    public void setOffCustom()
+    {
+        RouteLevel.isCustom = false;
+    }
+
     public void finishButton()
     {
-        int timeInSec = Int32.Parse(timeMin.text) * 60 + Int32.Parse(timeSec.text);
-        StartCoroutine(Main.instance.web.uploadImage(uploadUrl,passedImg,grayImg,Main.instance.web.getCurrentUser(),Int32.Parse(threshld.text),it,timeInSec));
+        RouteLevel.isCustom = true;
+        finish = true;
+        timeInSec = Int32.Parse(timeMin.text) * 60 + Int32.Parse(timeSec.text);
+        threshold = Int32.Parse(threshld.text);
+        afterAreasButton();
+        StartCoroutine(Main.instance.web.uploadImage(uploadUrl,passedImg,grayImg,Main.instance.web.getCurrentUser(), threshold, it,timeInSec));
         finishBtn.gameObject.SetActive(false);
         playBtn.gameObject.SetActive(true);
-        menuBtn.gameObject.SetActive(true);
+        //menuBtn.gameObject.SetActive(true);
     }
 
     public void menuButton()
     {
         // Save the level in db
         SceneManager.LoadScene("MainMenu");
-    }
-
-    public void playButton()
-    {
-        // perfome the new custom level
     }
 
     public void afterAreasButton()

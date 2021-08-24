@@ -11,6 +11,7 @@ public class Web : MonoBehaviour
     public static int numPixels = 100000;
     public static int timeInSec = 120;
     public static string user;
+
     void Start()
     {
         // A correct website page.
@@ -218,17 +219,19 @@ public class Web : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
+                Debug.Log("before error");
                 Debug.Log(www.error);
             }
             else
             {
+                Debug.Log("before downloadHandler");
                 byte[] bytes = www.downloadHandler.data;
-                
+                Debug.Log("before texture");
                 Texture2D texture = new Texture2D(2, 2);
                 texture.LoadImage(bytes);
-
+                Debug.Log("before sprite");
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-
+                Debug.Log("before callback");
                 callback(sprite,isBW);
             }
         }

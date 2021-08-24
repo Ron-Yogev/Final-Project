@@ -26,10 +26,15 @@ public class PaintByClick : MonoBehaviour
     GameObject image_curr_color;
     Texture2D img;
 
+    bool isCustom;
+
+    
+
 
     // Start is called before the first frame update
     void Start()
     {
+
         cur_color = new Color(1f, 1f, 1f, 1f);
         temp_curr = new Color(1f, 1f, 1f, 1f);
         int h = brushIcon.height;

@@ -20,6 +20,12 @@ public class CountBackTime : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (RouteLevel.isCustom)
+        {
+            minutes = Areas.timeInSec / 60;
+            seconds = Areas.timeInSec % 60;
+        }
+
         //initializing the class fields
         running = true;
         startTime = Time.time;
