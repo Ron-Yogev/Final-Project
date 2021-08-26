@@ -11,14 +11,15 @@ public class RouteLevel : MonoBehaviour
     [SerializeField]
     Image bwImg;
     private const string retrieveUrl = "http://localhost/UnityBackend/retrieveImg.php";
-    private const string retrieveCustomUrl = "http://localhost/UnityBackend/customRetrieve.php";
+    private const string retrieveCustomUrl = "http://localhost/UnityBackend/RetrieveCustom.php";
 
     public static bool isCustom = false;
+    public static bool isCustomChallenge = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(LateStart(0.3f));
+        StartCoroutine(LateStart(0.2f));
     }
 
     IEnumerator LateStart(float waitTime)
@@ -28,6 +29,7 @@ public class RouteLevel : MonoBehaviour
             Debug.Log("before bwImg.sprite = DownloadedImg;");
             if (bw)
             {
+                
                 bwImg.sprite = DownloadedImg;
                // bwImg.overrideSprite = DownloadedImg;
             }
@@ -43,11 +45,26 @@ public class RouteLevel : MonoBehaviour
         string uri = retrieveUrl;
         if (isCustom)
         {
+            Debug.Log("in isCustom");
             uri = retrieveCustomUrl;
+            StartCoroutine(Main.instance.web.retrieveImg(uri, Web.customLevel + 1, true, getSpriteCallback));
+            StartCoroutine(Main.instance.web.retrieveImg(uri, Web.customLevel + 1, false, getSpriteCallback));
+        }
+
+        else if (isCustomChallenge)
+        {
+            Debug.Log("in isCustomChallenge");
+
+            uri = retrieveCustomUrl;
+            StartCoroutine(Main.instance.web.retrieveImg(uri, Web.RandomCustomLevel, true, getSpriteCallback));
+            StartCoroutine(Main.instance.web.retrieveImg(uri, Web.RandomCustomLevel, false, getSpriteCallback));
+        }
+        else
+        {
+            StartCoroutine(Main.instance.web.retrieveImg(uri, Web.level, true, getSpriteCallback));
+            StartCoroutine(Main.instance.web.retrieveImg(uri, Web.level, false, getSpriteCallback));
         }
         Debug.Log("uri = " + uri);
-        StartCoroutine(Main.instance.web.retrieveImg(uri, Web.level, true, getSpriteCallback));
-        StartCoroutine(Main.instance.web.retrieveImg(uri, Web.level, false, getSpriteCallback));
 
     }
 
@@ -55,9 +72,11 @@ public class RouteLevel : MonoBehaviour
     {
         return TextureToTexture2D(colorImg.mainTexture);
     }
-
+   
     public Texture2D getBWImg()
     {
+        Texture2D td = TextureToTexture2D(bwImg.mainTexture);
+        Debug.Log("img size in flood fill width= " + td.width + " ,height = " + td.height);
         return TextureToTexture2D(bwImg.mainTexture);
     }
 
@@ -79,6 +98,7 @@ public class RouteLevel : MonoBehaviour
 
     public void setOffCustom()
     {
+        isCustomChallenge = false;
         isCustom = false;
     }
 }

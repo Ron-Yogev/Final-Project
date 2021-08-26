@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Random = System.Random;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -39,9 +40,9 @@ public class calculateScore : MonoBehaviour
         else if(isDemo)
         {
 
-            GameObject.FindGameObjectWithTag("home").GetComponent<Button>().interactable = false;
-            threshold = 80;
-            numPixels = 213165;
+            //GameObject.FindGameObjectWithTag("home").GetComponent<Button>().interactable = false;
+            threshold = 78;
+            numPixels = 124830;
             
         }
         
@@ -51,6 +52,13 @@ public class calculateScore : MonoBehaviour
             //GameObject.FindGameObjectWithTag("home").GetComponent<Button>().interactable = false;
             threshold = Areas.threshold;
             numPixels = Areas.it;
+        }
+        else if (RouteLevel.isCustomChallenge)
+        {
+
+            //GameObject.FindGameObjectWithTag("home").GetComponent<Button>().interactable = false;
+            threshold = Web.Customthreshold;
+            numPixels = Web.CustomnumPixels;
         }
         else
         {
@@ -109,10 +117,22 @@ public class calculateScore : MonoBehaviour
         if (score >= threshold )
         {
             SoundManagerScript.PlaySound("win");
-            if (!tutorial && Web.level < MAX_LEVEL)
+            if (!tutorial && !RouteLevel.isCustomChallenge && !isDemo &&  Web.level < MAX_LEVEL)
             {
                 StartCoroutine(Main.instance.web.updateLevel(setLevelUrl));
                 Web.setLevel(Web.level + 1);
+            }
+            else if (RouteLevel.isCustomChallenge)
+            {
+                Web.customDoneLevels.Add(Web.RandomCustomLevel);
+                Random rnd = new Random();
+                Web.RandomCustomLevel = rnd.Next(1, Web.customLevel + 1);
+                while (Web.customDoneLevels.Contains(Web.RandomCustomLevel))
+                {
+                    Web.RandomCustomLevel = rnd.Next(1, Web.customLevel + 1);
+                }
+                StartCoroutine(Main.instance.web.getCustomLevelVars("http://localhost/UnityBackend/retrieveCustomVars.php"));
+
             }
             gameObject.GetComponent<TextMeshProUGUI>().color = new Color(60 / 255f, 179 / 255f, 113 / 255f, 1f);
             nextLevelBtn.GetComponentInChildren<Text>().text = "Next Level!";
@@ -132,7 +152,13 @@ public class calculateScore : MonoBehaviour
         {
             nextLevelBtn.GetComponentInChildren<Text>().text = "Try Again";
             nextLevelBtn.gameObject.SetActive(true);
+            menuBtn.GetComponentInChildren<Text>().text = "Login";
+            menuBtn.gameObject.SetActive(true);
 
+        }
+        else if (RouteLevel.isCustom)
+        {
+            menuBtn.gameObject.SetActive(true);
         }
         else
         {
@@ -150,11 +176,11 @@ public class calculateScore : MonoBehaviour
 
     public void finishLevel()
     {
-        if (isDemo)
+       /* if (RouteLeve.isCustomChallenge)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-        if(Web.level == MAX_LEVEL)
+
+        }*/
+        if(Web.level == MAX_LEVEL && !tutorial && !RouteLevel.isCustomChallenge)
         {
             SceneManager.LoadScene("MainMenu");
         }
@@ -167,6 +193,13 @@ public class calculateScore : MonoBehaviour
     public void finishToMenu()
     {
         Cursor.visible = true;
-        SceneManager.LoadScene("MainMenu");
+        if (isDemo)
+        {
+            SceneManager.LoadScene("Login");
+        }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }

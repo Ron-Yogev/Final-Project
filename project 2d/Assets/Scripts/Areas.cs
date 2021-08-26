@@ -90,6 +90,12 @@ public class Areas : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void playButton()
+    {
+    
+        SceneManager.LoadScene("Game");
+    }
+
     public void afterAreasButton()
     {
         //Bitmap m = new Bitmap();

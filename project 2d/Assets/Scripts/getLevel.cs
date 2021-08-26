@@ -20,6 +20,15 @@ public class getLevel : MonoBehaviour
         {
             back_level.text = Main.instance.web.getCurrentUser() +" LEVEL";
             front_level.text = Main.instance.web.getCurrentUser() + " LEVEL";
+            back_level.fontSize = 23f;
+            front_level.fontSize = 23f;
+        }
+        else if (RouteLevel.isCustomChallenge)
+        {
+            back_level.text = "CUSTOM CHALLENGE";
+            front_level.text = "CUSTOM CHALLENGE";
+            back_level.fontSize = 23f;
+            front_level.fontSize = 23f;
         }
         else
         {

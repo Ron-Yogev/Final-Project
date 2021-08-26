@@ -25,11 +25,7 @@ public class PaintByClick : MonoBehaviour
     private bool onPointer = false;
     GameObject image_curr_color;
     Texture2D img;
-
-    bool isCustom;
-
     
-
 
     // Start is called before the first frame update
     void Start()

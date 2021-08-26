@@ -8,7 +8,10 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+
         StartCoroutine(Main.instance.web.getLevelVars("http://localhost/UnityBackend/retrieveVars.php"));
+        StartCoroutine(Main.instance.web.getCustomLevel("http://localhost/UnityBackend/getCustomLevel.php", false));
+
     }
     public void playGame()
     {
@@ -24,6 +27,9 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Tutorial");
     }
-
-    
+    public void CustomChallenge()
+    {
+        RouteLevel.isCustomChallenge = true;
+        SceneManager.LoadScene("Game");
+    }
 }

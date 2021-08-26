@@ -25,6 +25,17 @@ public class CountBackTime : MonoBehaviour
             minutes = Areas.timeInSec / 60;
             seconds = Areas.timeInSec % 60;
         }
+        else if (RouteLevel.isCustomChallenge)
+        {
+            minutes = Web.CustomtimeInSec / 60;
+            seconds = Web.CustomtimeInSec % 60;
+        }
+        else if (calculateScore.isDemo)
+        {
+            minutes = 1;
+            seconds = 30;
+        }
+        
 
         //initializing the class fields
         running = true;

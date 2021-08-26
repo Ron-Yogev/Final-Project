@@ -28,14 +28,17 @@ public class FloodFill : MonoBehaviour
         }
         else
         {
-            StartCoroutine(LateStart(0.5f));
+            StartCoroutine(LateStart(0.7f));
         }
     }
 
     IEnumerator LateStart(float waitTime)
     {
+        
         yield return new WaitForSeconds(waitTime);
+        Debug.Log("img size in flood fill width= " + GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg().width + " ,height = " +GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg().height);
         readble = duplicateTexture(GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg());
+        Debug.Log("after assignnnnnnnnn");
         Bwimg = duplicateTexture(GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getBWImg());
         Orig = GameObject.FindGameObjectWithTag("routeLevel").GetComponent<RouteLevel>().getColorImg();
     }

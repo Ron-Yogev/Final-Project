@@ -11,6 +11,8 @@ public class gameManager : MonoBehaviour
     public Image img;
     [SerializeField]
     public InputField url;
+    [SerializeField]
+    public Text comment;
 
     bool uploaded = false;
 
@@ -20,18 +22,16 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     public void buttonClick()
     {
-        if (!uploaded)
-        {
-            StartCoroutine(GetImageFromWeb(url.text));
-            GameObject.FindGameObjectWithTag("confirmURL").GetComponentInChildren<Text>().text = "Confirm";
-            uploaded = true;
-        }
-        else
+        if (uploaded)
         {
             SceneManager.LoadScene("EdjustTheImage");
+
         }
 
+        StartCoroutine(GetImageFromWeb(url.text));
     }
+
+    
 
     public void buttonAgain()
     {
@@ -46,6 +46,8 @@ public class gameManager : MonoBehaviour
     IEnumerator GetImageFromWeb(string x)
     {
         UnityEngine.Networking.UnityWebRequest req = UnityWebRequestTexture.GetTexture(x);
+        req.SetRequestHeader("access-control-request-headers", "POST");
+        
         yield return req.SendWebRequest();
 
         if(req.isNetworkError || req.isHttpError)
@@ -55,9 +57,20 @@ public class gameManager : MonoBehaviour
         else
         {
             Texture2D pic = ((DownloadHandlerTexture)req.downloadHandler).texture;
-            img.sprite = Sprite.Create(pic, new Rect(0, 0, pic.width, pic.height), Vector2.zero);
-            pass_img = new Texture2D(pic.width, pic.height);
-            pass_img.SetPixels(pic.GetPixels());
+            if (pic.width > 400 || pic.height > 400)
+            {
+                comment.gameObject.SetActive(true);
+            }
+            else
+            {
+                img.sprite = Sprite.Create(pic, new Rect(0, 0, pic.width, pic.height), Vector2.zero);
+                pass_img = new Texture2D(pic.width, pic.height);
+                pass_img.SetPixels(pic.GetPixels());
+                uploaded = true;
+                GameObject.FindGameObjectWithTag("confirmURL").GetComponentInChildren<Text>().text = "Confirm";
+                comment.gameObject.SetActive(false);
+            }
+
         }
 
     }

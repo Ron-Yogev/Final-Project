@@ -16,7 +16,6 @@ public class Login : MonoBehaviour
         loginBtn.onClick.AddListener(() =>
         {
             StartCoroutine(Main.instance.web.Login(loginUrl, usernameInput.text, passwordInput.text));
-           // StartCoroutine(Main.instance.web.getLevelVars("http://localhost/UnityBackend/retrieveVars.php"));
         });
 
         createBtn.onClick.AddListener(() =>

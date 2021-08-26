@@ -1,4 +1,5 @@
 using System;
+using Random = System.Random;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,45 +11,59 @@ public class Web : MonoBehaviour
     public static int threshold = 80;
     public static int numPixels = 100000;
     public static int timeInSec = 120;
+
+    public static int Customthreshold = 80;
+    public static int CustomnumPixels = 100000;
+    public static int CustomtimeInSec = 120;
+
     public static string user;
+    public static int customLevel = 1;
+    public static int RandomCustomLevel = 1;
+    public static ArrayList customDoneLevels;
 
-    void Start()
+    public IEnumerator getCustomLevel(string uri, bool isUploadProcess)
     {
-        // A correct website page.
-        //StartCoroutine(GetDate("http://localhost/UnityBackend/GetDate.php"));
-
-        //StartCoroutine(GetUsers("http://localhost/UnityBackend/GetUsers.php"));
-
-       // StartCoroutine(Login("http://localhost/UnityBackend/Login.php","yogedv100", "1233456" ));
-
-       // StartCoroutine(RegisterUser("http://localhost/UnityBackend/RegisterUser.php", "newnew", "111111"));
-
-        // A non-existing page.
-        //StartCoroutine(GetRequest("https://error.html"));
-    }
-
-    public IEnumerator GetDate(string uri)
-    {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        using (UnityWebRequest www = UnityWebRequest.Get(uri))
         {
-            // Request and wait for the desired page.
-            yield return webRequest.SendWebRequest();
+            yield return www.SendWebRequest();
 
-            string[] pages = uri.Split('/');
-            int page = pages.Length - 1;
-
-            switch (webRequest.result)
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                case UnityWebRequest.Result.ConnectionError:
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.Success:
-                    Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
-                    break;
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string data = www.downloadHandler.text;
+                Debug.Log("data =" + data); 
+                customDoneLevels = new ArrayList();
+                if (data != "not found")
+                {
+                    customLevel = Int32.Parse(data);
+                    
+                    Debug.Log("customLevel = " + customLevel);
+                }
+                else
+                {
+                    customLevel = 0;
+                    Debug.Log("customLevel = " + customLevel);
+                }
+                
+                if (isUploadProcess)
+                {
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("UploadImage");
+
+                }
+                else
+                {
+                    if(customLevel != 0)
+                    {
+                        Random rnd = new Random();
+                        RandomCustomLevel = rnd.Next(1, customLevel + 1);
+                        Debug.Log("getCustomLevelVars Call");
+                        StartCoroutine(getCustomLevelVars("http://localhost/UnityBackend/retrieveCustomVars.php"));
+                    }
+                    
+                }
             }
         }
     }
@@ -183,6 +198,7 @@ public class Web : MonoBehaviour
             Debug.Log(w.text);
 
         }
+
         w.Dispose();
 
     }
@@ -210,7 +226,7 @@ public class Web : MonoBehaviour
         int bw;
         if (isBW) bw = 1;
         else bw = 0;
-
+        Debug.Log("level in retrive = " + level);
         form.AddField("level", level); // post form in php
         form.AddField("isBW", bw);
         using (UnityWebRequest www = UnityWebRequest.Post(uri, form))
@@ -226,6 +242,7 @@ public class Web : MonoBehaviour
             {
                 Debug.Log("before downloadHandler");
                 byte[] bytes = www.downloadHandler.data;
+                Debug.Log("bytes size = " + bytes.Length);
                 Debug.Log("before texture");
                 Texture2D texture = new Texture2D(2, 2);
                 texture.LoadImage(bytes);
@@ -233,6 +250,37 @@ public class Web : MonoBehaviour
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 Debug.Log("before callback");
                 callback(sprite,isBW);
+            }
+        }
+    }
+
+    public IEnumerator getCustomLevelVars(string uri)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("level", RandomCustomLevel); // post form in php
+
+        using (UnityWebRequest www = UnityWebRequest.Post(uri, form))
+        {
+            Debug.Log("in getCustomLevelVars before yield");
+            yield return www.SendWebRequest();
+            Debug.Log("in getCustomLevelVars after yield");
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log("in getCustomLevelVars error");
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string data = www.downloadHandler.text;
+                Debug.Log("data = " + data);
+                int[] vars = parseVars(data);
+                Customthreshold = vars[0];
+                Debug.Log("vars[0] =  " + vars[0]);
+                CustomnumPixels = vars[1];
+                Debug.Log("vars[1] = " + vars[1]);
+                CustomtimeInSec = vars[2];
+                Debug.Log("vars[2] = " + vars[2]);
+                Debug.Log("vars = " + vars);
             }
         }
     }
@@ -283,13 +331,11 @@ public class Web : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log("lo baini");
                 Debug.Log(www.error);
             }
             else
             {
                 Debug.Log("text rom php = "+www.downloadHandler.text);
-                Debug.Log("update baini");
             }
         }
 

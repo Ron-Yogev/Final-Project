@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Scores
+  m_text: Custom Challenge
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f231cd2adc0cb6641abfe94931af9d3e, type: 2}
   m_sharedMaterial: {fileID: 2107450963852470429, guid: f231cd2adc0cb6641abfe94931af9d3e, type: 2}
@@ -207,8 +207,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1215,6 +1215,7 @@ GameObject:
   - component: {fileID: 1043898276}
   - component: {fileID: 1043898275}
   - component: {fileID: 1043898274}
+  - component: {fileID: 1043898277}
   m_Layer: 5
   m_Name: newLevel
   m_TagString: Untagged
@@ -1285,19 +1286,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1043898275}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 569831765}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: newGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1043898275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1336,6 +1325,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043898272}
   m_CullTransparentMesh: 1
+--- !u!114 &1043898277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043898272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c5a9cd81d24da4daabc1cfb3d92f95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customBtn: {fileID: 1043898274}
 --- !u!1 &1096399684
 GameObject:
   m_ObjectHideFlags: 0
@@ -1483,7 +1485,7 @@ GameObject:
   - component: {fileID: 1336106475}
   - component: {fileID: 1336106474}
   m_Layer: 5
-  m_Name: scores
+  m_Name: Custom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1552,7 +1554,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1336106475}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 569831765}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: CustomChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1336106475
 MonoBehaviour:
   m_ObjectHideFlags: 0

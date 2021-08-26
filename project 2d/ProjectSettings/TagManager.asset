@@ -25,6 +25,7 @@ TagManager:
   - player
   - painted
   - home
+  - comment
   layers:
   - Default
   - TransparentFX
