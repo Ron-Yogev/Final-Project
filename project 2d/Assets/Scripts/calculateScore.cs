@@ -41,8 +41,8 @@ public class calculateScore : MonoBehaviour
         {
 
             //GameObject.FindGameObjectWithTag("home").GetComponent<Button>().interactable = false;
-            threshold = 78;
-            numPixels = 124830;
+            threshold = 80;
+            numPixels = 213165;
             
         }
         
@@ -196,6 +196,7 @@ public class calculateScore : MonoBehaviour
         if (isDemo)
         {
             SceneManager.LoadScene("Login");
+            isDemo = false;
         }
         else
         {

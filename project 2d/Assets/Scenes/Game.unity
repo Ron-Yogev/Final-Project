@@ -4537,6 +4537,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorImg: {fileID: 254390760}
   bwImg: {fileID: 1983546243}
+  demoSprite: {fileID: 21300000, guid: d4736a1666c4c9144b65f0bdad6a9d82, type: 3}
+  demobwSprite: {fileID: 21300000, guid: ca2e69a4c706a7b42b19e6f2180c1781, type: 3}
 --- !u!4 &1727013281
 Transform:
   m_ObjectHideFlags: 0

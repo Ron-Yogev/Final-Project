@@ -32,8 +32,8 @@ public class CountBackTime : MonoBehaviour
         }
         else if (calculateScore.isDemo)
         {
-            minutes = 1;
-            seconds = 30;
+            minutes = 2;
+            seconds = 0;
         }
         
 

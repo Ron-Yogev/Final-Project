@@ -16,6 +16,11 @@ public class RouteLevel : MonoBehaviour
     public static bool isCustom = false;
     public static bool isCustomChallenge = false;
 
+    [SerializeField]
+    Sprite demoSprite;
+    [SerializeField]
+    Sprite demobwSprite;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +63,12 @@ public class RouteLevel : MonoBehaviour
             uri = retrieveCustomUrl;
             StartCoroutine(Main.instance.web.retrieveImg(uri, Web.RandomCustomLevel, true, getSpriteCallback));
             StartCoroutine(Main.instance.web.retrieveImg(uri, Web.RandomCustomLevel, false, getSpriteCallback));
+        }
+        else if (calculateScore.isDemo)
+        {
+            Debug.Log("calculateScore.isDemo");
+            bwImg.sprite = demobwSprite;
+            colorImg.sprite = demoSprite;
         }
         else
         {
