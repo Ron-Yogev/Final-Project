@@ -59,4 +59,13 @@ Go to 'C:\xampp\htdocs' folder, and create new folder named 'UnityBackend'.
 
 Inside 'UnityBackend' folder you created, extract from 'mixit.zip' file all PHP files:
 
+![](configuration%20images/server%20files.png)
+
+
+### Thats All!!!
+
+The game is ready to play, have fun!
+
+<https://ronyogev.itch.io/mix-it>
+
 
