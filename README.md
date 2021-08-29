@@ -42,5 +42,21 @@ After that, name the database 'mixit' and click 'Go', and you will see database 
 
 Select 'mixit' database on the left pane, and click on the Import tab in the top center pane.
 
+![](configuration%20images/import%20db.png)
+
+Download 'mixit.zip' file from this Project's main folder, and extract 'mixit.sql' file.
+
+Under the File to import section, click Browse and locate the mixit.sql file:
+
+![](configuration%20images/import%20browse.png)
+
+and click 'Go'
+
+
+### Step 5: Import Server files 
+
+Go to 'C:\xampp\htdocs' folder, and create new folder named 'UnityBackend'.
+
+Inside 'UnityBackend' folder you created, extract from 'mixit.zip' file all PHP files:
 
 
